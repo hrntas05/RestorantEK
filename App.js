@@ -14,6 +14,8 @@ import WaiterMenuScreen from './src/screens/WaiterMenuScreen';
 import AdminScreen from './src/screens/AdminScreen';
 import MenuManagementScreen from './src/screens/MenuManagementScreen';
 import WaiterManagementScreen from './src/screens/WaiterManagementScreen';
+import TableManagementScreen from './src/screens/TableManagementScreen';
+import ReservationManagementScreen from './src/screens/ReservationManagementScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -32,6 +34,8 @@ const AdminStack = () => (
     <Stack.Screen name="Chef" component={ChefScreen} />
     <Stack.Screen name="MenuManagement" component={MenuManagementScreen} />
     <Stack.Screen name="WaiterManagement" component={WaiterManagementScreen} />
+    <Stack.Screen name="TableManagement" component={TableManagementScreen} />
+    <Stack.Screen name="ReservationManagement" component={ReservationManagementScreen} />
   </Stack.Navigator>
 );
 

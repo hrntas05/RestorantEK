@@ -45,16 +45,16 @@ export const initialMenuItems = [
 ];
 
 export const initialTables = [
-  { id: '1', number: 1, status: 'available' },
-  { id: '2', number: 2, status: 'available' },
-  { id: '3', number: 3, status: 'available' },
-  { id: '4', number: 4, status: 'available' },
-  { id: '5', number: 5, status: 'available' },
-  { id: '6', number: 6, status: 'available' },
-  { id: '7', number: 7, status: 'available' },
-  { id: '8', number: 8, status: 'available' },
-  { id: '9', number: 9, status: 'available' },
-  { id: '10', number: 10, status: 'available' }
+  { id: '1', number: 1, capacity: 4, status: 'available', lastUpdated: new Date().toISOString(), currentOrder: null },
+  { id: '2', number: 2, capacity: 2, status: 'occupied', lastUpdated: new Date().toISOString(), currentOrder: { id: 'demo1', waiterName: 'Ahmet Yılmaz', createdAt: new Date().toISOString() } },
+  { id: '3', number: 3, capacity: 6, status: 'available', lastUpdated: new Date().toISOString(), currentOrder: null },
+  { id: '4', number: 4, capacity: 4, status: 'reserved', lastUpdated: new Date().toISOString(), currentOrder: null },
+  { id: '5', number: 5, capacity: 2, status: 'cleaning', lastUpdated: new Date().toISOString(), currentOrder: null },
+  { id: '6', number: 6, capacity: 4, status: 'available', lastUpdated: new Date().toISOString(), currentOrder: null },
+  { id: '7', number: 7, capacity: 8, status: 'available', lastUpdated: new Date().toISOString(), currentOrder: null },
+  { id: '8', number: 8, capacity: 4, status: 'occupied', lastUpdated: new Date().toISOString(), currentOrder: { id: 'demo2', waiterName: 'Ahmet Yılmaz', createdAt: new Date().toISOString() } },
+  { id: '9', number: 9, capacity: 2, status: 'available', lastUpdated: new Date().toISOString(), currentOrder: null },
+  { id: '10', number: 10, capacity: 6, status: 'maintenance', lastUpdated: new Date().toISOString(), currentOrder: null }
 ];
 
 export const initialWaiters = [

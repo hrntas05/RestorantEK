@@ -9,6 +9,7 @@ const initialState = {
   tables: [],
   waiters: [],
   orders: [],
+  reservations: [],
   selectedTable: null,
   cart: []
 };
@@ -21,6 +22,7 @@ export const ACTION_TYPES = {
   SET_TABLES: 'SET_TABLES',
   SET_WAITERS: 'SET_WAITERS',
   SET_ORDERS: 'SET_ORDERS',
+  SET_RESERVATIONS: 'SET_RESERVATIONS',
   SET_SELECTED_TABLE: 'SET_SELECTED_TABLE',
   ADD_TO_CART: 'ADD_TO_CART',
   REMOVE_FROM_CART: 'REMOVE_FROM_CART',
@@ -49,6 +51,9 @@ const appReducer = (state, action) => {
     
     case ACTION_TYPES.SET_ORDERS:
       return { ...state, orders: action.payload };
+    
+    case ACTION_TYPES.SET_RESERVATIONS:
+      return { ...state, reservations: action.payload };
     
     case ACTION_TYPES.SET_SELECTED_TABLE:
       return { ...state, selectedTable: action.payload };
@@ -146,6 +151,7 @@ export const AppProvider = ({ children }) => {
     setTables: (tables) => dispatch({ type: ACTION_TYPES.SET_TABLES, payload: tables }),
     setWaiters: (waiters) => dispatch({ type: ACTION_TYPES.SET_WAITERS, payload: waiters }),
     setOrders: (orders) => dispatch({ type: ACTION_TYPES.SET_ORDERS, payload: orders }),
+    setReservations: (reservations) => dispatch({ type: ACTION_TYPES.SET_RESERVATIONS, payload: reservations }),
     setSelectedTable: (table) => dispatch({ type: ACTION_TYPES.SET_SELECTED_TABLE, payload: table }),
     addToCart: (item) => dispatch({ type: ACTION_TYPES.ADD_TO_CART, payload: item }),
     removeFromCart: (itemId) => dispatch({ type: ACTION_TYPES.REMOVE_FROM_CART, payload: itemId }),

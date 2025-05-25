@@ -52,6 +52,18 @@ const AdminScreen = ({ navigation }) => {
       onPress: () => navigation.navigate('WaiterManagement')
     },
     {
+      title: 'Masa Yönetimi',
+      subtitle: 'Masa durumlarını görüntüle ve yönet',
+      color: '#2c3e50',
+      onPress: () => navigation.navigate('TableManagement')
+    },
+    {
+      title: 'Rezervasyon Yönetimi',
+      subtitle: 'Rezervasyonları görüntüle ve yönet',
+      color: '#e67e22',
+      onPress: () => navigation.navigate('ReservationManagement')
+    },
+    {
       title: 'Raporlar',
       subtitle: 'Satış raporları ve istatistikler',
       color: '#9b59b6',

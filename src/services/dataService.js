@@ -12,6 +12,7 @@ const STORAGE_KEYS = {
   TABLES: 'tables',
   WAITERS: 'waiters',
   ORDERS: 'orders',
+  RESERVATIONS: 'reservations',
   CURRENT_USER: 'currentUser'
 };
 
@@ -41,6 +42,12 @@ export const initializeData = async () => {
     const existingOrders = await AsyncStorage.getItem(STORAGE_KEYS.ORDERS);
     if (!existingOrders) {
       await AsyncStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify([]));
+    }
+
+    // Rezervasyonları kontrol et
+    const existingReservations = await AsyncStorage.getItem(STORAGE_KEYS.RESERVATIONS);
+    if (!existingReservations) {
+      await AsyncStorage.setItem(STORAGE_KEYS.RESERVATIONS, JSON.stringify([]));
     }
 
     console.log('Veriler başarıyla yüklendi');
@@ -256,5 +263,126 @@ export const updateOrderStatus = async (orderId, status) => {
   } catch (error) {
     console.error('Sipariş güncelleme hatası:', error);
     return { success: false, message: 'Sipariş güncellenemedi' };
+  }
+};
+
+// Masa durumu güncelle
+export const updateTableStatus = async (tableId, status) => {
+  try {
+    const tablesData = await AsyncStorage.getItem(STORAGE_KEYS.TABLES);
+    let tables = tablesData ? JSON.parse(tablesData) : [];
+    
+    const tableIndex = tables.findIndex(t => t.id === tableId);
+    if (tableIndex >= 0) {
+      tables[tableIndex].status = status;
+      tables[tableIndex].lastUpdated = new Date().toISOString();
+      
+      // Eğer masa boş olarak işaretleniyorsa, mevcut siparişi temizle
+      if (status === 'available') {
+        tables[tableIndex].currentOrder = null;
+      }
+      
+      await AsyncStorage.setItem(STORAGE_KEYS.TABLES, JSON.stringify(tables));
+      return { success: true };
+    }
+    
+    return { success: false, message: 'Masa bulunamadı' };
+  } catch (error) {
+    console.error('Masa durumu güncelleme hatası:', error);
+    return { success: false, message: 'Masa durumu güncellenemedi' };
+  }
+};
+
+// Rezervasyonları al
+export const getReservations = async () => {
+  try {
+    const reservationsData = await AsyncStorage.getItem(STORAGE_KEYS.RESERVATIONS);
+    return reservationsData ? JSON.parse(reservationsData) : [];
+  } catch (error) {
+    console.error('Rezervasyon alma hatası:', error);
+    return [];
+  }
+};
+
+// Rezervasyon ekle/güncelle
+export const saveReservation = async (reservation) => {
+  try {
+    const reservationsData = await AsyncStorage.getItem(STORAGE_KEYS.RESERVATIONS);
+    let reservations = reservationsData ? JSON.parse(reservationsData) : [];
+    
+    const existingIndex = reservations.findIndex(r => r.id === reservation.id);
+    
+    if (existingIndex >= 0) {
+      reservations[existingIndex] = reservation;
+    } else {
+      reservation.id = Date.now().toString();
+      reservation.createdAt = new Date().toISOString();
+      reservations.push(reservation);
+    }
+    
+    await AsyncStorage.setItem(STORAGE_KEYS.RESERVATIONS, JSON.stringify(reservations));
+    
+    // Rezervasyon oluşturulduğunda masayı rezerve olarak işaretle
+    if (reservation.status === 'confirmed') {
+      await updateTableStatus(reservation.tableId, 'reserved');
+    }
+    
+    return { success: true };
+  } catch (error) {
+    console.error('Rezervasyon kaydetme hatası:', error);
+    return { success: false, message: 'Rezervasyon kaydedilemedi' };
+  }
+};
+
+// Rezervasyon sil
+export const deleteReservation = async (reservationId) => {
+  try {
+    const reservationsData = await AsyncStorage.getItem(STORAGE_KEYS.RESERVATIONS);
+    let reservations = reservationsData ? JSON.parse(reservationsData) : [];
+    
+    const reservation = reservations.find(r => r.id === reservationId);
+    reservations = reservations.filter(r => r.id !== reservationId);
+    
+    await AsyncStorage.setItem(STORAGE_KEYS.RESERVATIONS, JSON.stringify(reservations));
+    
+    // Rezervasyon silindiğinde masayı boş olarak işaretle
+    if (reservation && reservation.tableId) {
+      await updateTableStatus(reservation.tableId, 'available');
+    }
+    
+    return { success: true };
+  } catch (error) {
+    console.error('Rezervasyon silme hatası:', error);
+    return { success: false, message: 'Rezervasyon silinemedi' };
+  }
+};
+
+// Rezervasyon durumu güncelle
+export const updateReservationStatus = async (reservationId, status) => {
+  try {
+    const reservationsData = await AsyncStorage.getItem(STORAGE_KEYS.RESERVATIONS);
+    let reservations = reservationsData ? JSON.parse(reservationsData) : [];
+    
+    const reservationIndex = reservations.findIndex(r => r.id === reservationId);
+    if (reservationIndex >= 0) {
+      reservations[reservationIndex].status = status;
+      reservations[reservationIndex].updatedAt = new Date().toISOString();
+      
+      // Durum değişikliklerine göre masa durumunu güncelle
+      const reservation = reservations[reservationIndex];
+      if (status === 'arrived') {
+        await updateTableStatus(reservation.tableId, 'occupied');
+      } else if (status === 'completed' || status === 'cancelled') {
+        await updateTableStatus(reservation.tableId, 'available');
+      }
+      
+      await AsyncStorage.setItem(STORAGE_KEYS.RESERVATIONS, JSON.stringify(reservations));
+      return { success: true };
+    }
+    
+    return { success: false, message: 'Rezervasyon bulunamadı' };
+  } catch (error) {
+    console.error('Rezervasyon güncelleme hatası:', error);
+    return { success: false, message: 'Rezervasyon güncellenemedi' };
   }
 }; 

@@ -70,6 +70,10 @@ const WaiterTablesScreen = ({ navigation }) => {
         return '#e74c3c';
       case 'reserved':
         return '#f39c12';
+      case 'cleaning':
+        return '#9b59b6';
+      case 'maintenance':
+        return '#95a5a6';
       default:
         return '#95a5a6';
     }
@@ -83,31 +87,72 @@ const WaiterTablesScreen = ({ navigation }) => {
         return 'Dolu';
       case 'reserved':
         return 'Rezerve';
+      case 'cleaning':
+        return 'Temizleniyor';
+      case 'maintenance':
+        return 'Bakımda';
       default:
         return 'Bilinmiyor';
     }
   };
 
-  const renderTableItem = ({ item }) => (
-    <TouchableOpacity
-      style={[
-        styles.tableCard,
-        { borderColor: getTableStatusColor(item.status) }
-      ]}
-      onPress={() => handleTableSelect(item)}
-      disabled={item.status === 'occupied'}
-    >
-      <View style={styles.tableNumber}>
-        <Text style={styles.tableNumberText}>{item.number}</Text>
-      </View>
-      <View style={[
-        styles.statusBadge,
-        { backgroundColor: getTableStatusColor(item.status) }
-      ]}>
-        <Text style={styles.statusText}>{getTableStatusText(item.status)}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+  const getTableStatusIcon = (status) => {
+    switch (status) {
+      case 'available':
+        return '✓';
+      case 'occupied':
+        return '👥';
+      case 'reserved':
+        return '📅';
+      case 'cleaning':
+        return '🧹';
+      case 'maintenance':
+        return '🔧';
+      default:
+        return '?';
+    }
+  };
+
+  const isTableSelectable = (status) => {
+    return status === 'available';
+  };
+
+  const renderTableItem = ({ item }) => {
+    const isSelectable = isTableSelectable(item.status);
+    
+    return (
+      <TouchableOpacity
+        style={[
+          styles.tableCard,
+          { 
+            borderColor: getTableStatusColor(item.status),
+            opacity: isSelectable ? 1 : 0.6
+          }
+        ]}
+        onPress={() => handleTableSelect(item)}
+        disabled={!isSelectable}
+      >
+        <View style={styles.tableHeader}>
+          <Text style={styles.tableNumberText}>Masa {item.number}</Text>
+          <Text style={styles.tableCapacity}>{item.capacity} kişilik</Text>
+        </View>
+        
+        <View style={styles.statusContainer}>
+          <Text style={styles.statusIcon}>{getTableStatusIcon(item.status)}</Text>
+          <View style={[
+            styles.statusBadge,
+            { backgroundColor: getTableStatusColor(item.status) }
+          ]}>
+            <Text style={styles.statusText}>{getTableStatusText(item.status)}</Text>
+          </View>
+        </View>
+        
+        {!isSelectable && (
+          <Text style={styles.unavailableText}>Seçilemez</Text>
+        )}
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -203,10 +248,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     margin: 10,
     borderRadius: 15,
-    padding: 20,
+    padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: 120,
+    minHeight: 140,
     borderWidth: 3,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -214,13 +259,27 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  tableNumber: {
-    marginBottom: 15,
+  tableHeader: {
+    alignItems: 'center',
+    marginBottom: 10,
   },
   tableNumberText: {
-    fontSize: 32,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#2c3e50',
+    marginBottom: 2,
+  },
+  tableCapacity: {
+    fontSize: 12,
+    color: '#7f8c8d',
+  },
+  statusContainer: {
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  statusIcon: {
+    fontSize: 20,
+    marginBottom: 5,
   },
   statusBadge: {
     paddingHorizontal: 12,
@@ -231,6 +290,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 12,
     fontWeight: '600',
+  },
+  unavailableText: {
+    fontSize: 10,
+    color: '#e74c3c',
+    fontWeight: '600',
+    marginTop: 5,
   },
   emptyContainer: {
     flex: 1,

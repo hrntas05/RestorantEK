@@ -43,13 +43,13 @@ const AdminScreen = ({ navigation }) => {
       title: 'Menü Yönetimi',
       subtitle: 'Menü öğelerini ekle, düzenle, sil',
       color: '#27ae60',
-      onPress: () => Alert.alert('Bilgi', 'Menü yönetimi yakında eklenecek')
+      onPress: () => navigation.navigate('MenuManagement')
     },
     {
       title: 'Garson Yönetimi',
       subtitle: 'Garsonları ekle, düzenle, sil',
       color: '#3498db',
-      onPress: () => Alert.alert('Bilgi', 'Garson yönetimi yakında eklenecek')
+      onPress: () => navigation.navigate('WaiterManagement')
     },
     {
       title: 'Raporlar',

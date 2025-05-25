@@ -10,11 +10,11 @@ import {
   ScrollView
 } from 'react-native';
 import { useApp } from '../context/AppContext';
-import { getOrders, updateOrderStatus } from '../services/dataService';
+import { getOrders, updateOrderStatus, logout } from '../services/dataService';
 import { useFocusEffect } from '@react-navigation/native';
 
-const ChefScreen = () => {
-  const { state, setOrders } = useApp();
+const ChefScreen = ({ navigation }) => {
+  const { state, setOrders, logout: contextLogout } = useApp();
   const [refreshing, setRefreshing] = useState(false);
   const [filter, setFilter] = useState('all'); // all, pending, preparing
 
@@ -66,6 +66,25 @@ const ChefScreen = () => {
       console.error('Error updating order status:', error);
       Alert.alert('Hata', 'Sipariş durumu güncellenirken hata oluştu');
     }
+  };
+
+  const handleLogout = async () => {
+    Alert.alert(
+      'Çıkış',
+      'Çıkış yapmak istediğinizden emin misiniz?',
+      [
+        { text: 'İptal', style: 'cancel' },
+        {
+          text: 'Çıkış Yap',
+          style: 'destructive',
+          onPress: async () => {
+            await logout();
+            contextLogout();
+            navigation.replace('Login');
+          }
+        }
+      ]
+    );
   };
 
   const getStatusColor = (status) => {
@@ -205,8 +224,25 @@ const ChefScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Şef Paneli</Text>
-        <Text style={styles.subtitle}>Aktif Siparişler</Text>
+        <View style={styles.headerContent}>
+          <View style={styles.headerLeft}>
+            {state.user?.role === 'admin' && (
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.goBack()}
+              >
+                <Text style={styles.backButtonText}>← Geri</Text>
+              </TouchableOpacity>
+            )}
+            <View>
+              <Text style={styles.title}>Şef Paneli</Text>
+              <Text style={styles.subtitle}>Aktif Siparişler</Text>
+            </View>
+          </View>
+          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+            <Text style={styles.logoutButtonText}>Çıkış</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView 
@@ -280,6 +316,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 50,
   },
+  headerContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  backButton: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginRight: 15,
+  },
+  backButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -289,6 +346,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#ecf0f1',
     marginTop: 5,
+  },
+  logoutButton: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
+  },
+  logoutButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
   },
   filterContainer: {
     backgroundColor: '#fff',

@@ -9,6 +9,9 @@ import { ActivityIndicator, View, StyleSheet } from 'react-native';
 // Screens
 import LoginScreen from './src/screens/LoginScreen';
 import ChefScreen from './src/screens/ChefScreen';
+import WaiterTablesScreen from './src/screens/WaiterTablesScreen';
+import WaiterMenuScreen from './src/screens/WaiterMenuScreen';
+import AdminScreen from './src/screens/AdminScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -20,25 +23,20 @@ const LoadingScreen = () => (
   </View>
 );
 
-// Chef Tabs (for standalone chef panel)
-const ChefTabs = () => (
-  <Tab.Navigator
-    screenOptions={{
-      headerShown: false,
-      tabBarStyle: { backgroundColor: '#2c3e50' },
-      tabBarActiveTintColor: '#3498db',
-      tabBarInactiveTintColor: '#7f8c8d',
-    }}
-  >
-    <Tab.Screen 
-      name="Chef" 
-      component={ChefScreen} 
-      options={{
-        tabBarLabel: 'Şef Paneli',
-        tabBarIcon: () => null,
-      }}
-    />
-  </Tab.Navigator>
+// Admin Stack Navigator
+const AdminStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Admin" component={AdminScreen} />
+    <Stack.Screen name="Chef" component={ChefScreen} />
+  </Stack.Navigator>
+);
+
+// Waiter Stack Navigator
+const WaiterStack = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Tables" component={WaiterTablesScreen} />
+    <Stack.Screen name="Menu" component={WaiterMenuScreen} />
+  </Stack.Navigator>
 );
 
 // Main App Navigator
@@ -57,9 +55,9 @@ const AppNavigator = () => {
         ) : (
           <>
             {state.user.role === 'admin' ? (
-              <Stack.Screen name="AdminTabs" component={ChefTabs} />
+              <Stack.Screen name="AdminTabs" component={AdminStack} />
             ) : (
-              <Stack.Screen name="WaiterTabs" component={ChefTabs} />
+              <Stack.Screen name="WaiterTabs" component={WaiterStack} />
             )}
           </>
         )}

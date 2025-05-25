@@ -67,7 +67,7 @@ const AdminScreen = ({ navigation }) => {
       title: 'Raporlar',
       subtitle: 'Satış raporları ve istatistikler',
       color: '#9b59b6',
-      onPress: () => Alert.alert('Bilgi', 'Raporlar yakında eklenecek')
+      onPress: () => navigation.navigate('Reports')
     }
   ];
 

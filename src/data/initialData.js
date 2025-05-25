@@ -81,4 +81,103 @@ export const menuCategories = [
   'Salata',
   'İçecek',
   'Tatlı'
+];
+
+// Örnek siparişler (test için)
+export const initialOrders = [
+  {
+    id: '1',
+    tableNumber: 2,
+    waiterName: 'Ahmet Yılmaz',
+    items: [
+      { id: '1', name: 'Adana Kebap', price: 85, quantity: 2 },
+      { id: '3', name: 'Mercimek Çorbası', price: 25, quantity: 2 },
+      { id: '5', name: 'Ayran', price: 15, quantity: 2 }
+    ],
+    notes: 'Az acılı olsun',
+    status: 'completed',
+    createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // 2 saat önce
+    completedAt: new Date(Date.now() - 1.5 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: '2',
+    tableNumber: 8,
+    waiterName: 'Ahmet Yılmaz',
+    items: [
+      { id: '2', name: 'Tavuk Şiş', price: 75, quantity: 1 },
+      { id: '4', name: 'Çoban Salata', price: 35, quantity: 1 },
+      { id: '6', name: 'Çay', price: 8, quantity: 2 }
+    ],
+    notes: '',
+    status: 'completed',
+    createdAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(), // 3 saat önce
+    completedAt: new Date(Date.now() - 2.5 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: '3',
+    tableNumber: 1,
+    waiterName: 'Ahmet Yılmaz',
+    items: [
+      { id: '1', name: 'Adana Kebap', price: 85, quantity: 1 },
+      { id: '2', name: 'Tavuk Şiş', price: 75, quantity: 1 },
+      { id: '3', name: 'Mercimek Çorbası', price: 25, quantity: 2 },
+      { id: '5', name: 'Ayran', price: 15, quantity: 3 }
+    ],
+    notes: 'Çabuk hazırlansın',
+    status: 'completed',
+    createdAt: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(), // 4 saat önce
+    completedAt: new Date(Date.now() - 3.5 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: '4',
+    tableNumber: 3,
+    waiterName: 'Ahmet Yılmaz',
+    items: [
+      { id: '4', name: 'Çoban Salata', price: 35, quantity: 2 },
+      { id: '6', name: 'Çay', price: 8, quantity: 4 }
+    ],
+    notes: '',
+    status: 'completed',
+    createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(), // 5 saat önce
+    completedAt: new Date(Date.now() - 4.5 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: '5',
+    tableNumber: 6,
+    waiterName: 'Ahmet Yılmaz',
+    items: [
+      { id: '1', name: 'Adana Kebap', price: 85, quantity: 3 },
+      { id: '3', name: 'Mercimek Çorbası', price: 25, quantity: 3 },
+      { id: '4', name: 'Çoban Salata', price: 35, quantity: 1 },
+      { id: '5', name: 'Ayran', price: 15, quantity: 3 }
+    ],
+    notes: 'Aile siparişi',
+    status: 'completed',
+    createdAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(), // 6 saat önce
+    completedAt: new Date(Date.now() - 5.5 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: '6',
+    tableNumber: 7,
+    waiterName: 'Ahmet Yılmaz',
+    items: [
+      { id: '2', name: 'Tavuk Şiş', price: 75, quantity: 2 },
+      { id: '6', name: 'Çay', price: 8, quantity: 2 }
+    ],
+    notes: '',
+    status: 'preparing',
+    createdAt: new Date(Date.now() - 30 * 60 * 1000).toISOString() // 30 dakika önce
+  },
+  {
+    id: '7',
+    tableNumber: 9,
+    waiterName: 'Ahmet Yılmaz',
+    items: [
+      { id: '3', name: 'Mercimek Çorbası', price: 25, quantity: 1 },
+      { id: '5', name: 'Ayran', price: 15, quantity: 1 }
+    ],
+    notes: '',
+    status: 'pending',
+    createdAt: new Date(Date.now() - 10 * 60 * 1000).toISOString() // 10 dakika önce
+  }
 ]; 

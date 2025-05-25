@@ -3,7 +3,8 @@ import {
   initialMenuItems, 
   initialTables, 
   initialWaiters, 
-  adminUser 
+  adminUser,
+  initialOrders
 } from '../data/initialData';
 
 // Storage anahtarları
@@ -41,7 +42,7 @@ export const initializeData = async () => {
     // Siparişleri kontrol et
     const existingOrders = await AsyncStorage.getItem(STORAGE_KEYS.ORDERS);
     if (!existingOrders) {
-      await AsyncStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify([]));
+      await AsyncStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(initialOrders));
     }
 
     // Rezervasyonları kontrol et

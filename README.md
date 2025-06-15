@@ -100,11 +100,11 @@ RestorantEK/
 
 ### 🪑 Masa Yönetimi
 - **5 Masa Durumu:**
-  - 🟢 **Boş (Available):** Müşteri bekliyor
-  - 🔴 **Dolu (Occupied):** Müşteri var
-  - 🟡 **Rezerve (Reserved):** Rezervasyon var
-  - 🔵 **Temizlik (Cleaning):** Temizleniyor
-  - ⚫ **Bakım (Maintenance):** Bakımda
+  -  **Boş (Available):** Müşteri bekliyor
+  -  **Dolu (Occupied):** Müşteri var
+  -  **Rezerve (Reserved):** Rezervasyon var
+  -  **Temizlik (Cleaning):** Temizleniyor
+  -  **Bakım (Maintenance):** Bakımda
 
 ### 📅 Rezervasyon Sistemi
 - **Müşteri Bilgileri:** Ad, telefon, kişi sayısı
@@ -124,12 +124,12 @@ RestorantEK/
 ## 🎨 Tasarım ve UI/UX
 
 ### Renk Paleti
-- **Admin:** Mor (#8e44ad, #9b59b6)
-- **Şef:** Turuncu (#e67e22, #d35400)
-- **Garson:** Mavi (#3498db, #2980b9)
-- **Başarı:** Yeşil (#27ae60)
-- **Hata:** Kırmızı (#e74c3c)
-
+- **Admin:** Mor 
+- **Şef:** Turuncu 
+- **Garson:** Mavi 
+- **Başarı:** Yeşil 
+- **Hata:** Kırmızı
+- 
 ### Tasarım Prensipleri
 - **Responsive Design:** Tüm ekran boyutlarına uyumlu
 - **Intuitive Navigation:** Kolay navigasyon
